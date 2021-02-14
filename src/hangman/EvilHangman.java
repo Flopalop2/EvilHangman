@@ -172,9 +172,9 @@ public class EvilHangman {
             output.append("Word: ");
             output.append(finalGuess.toString() + "\n");
 
-            while (guessing) {
+            output.append("Enter guess: \n");
 
-                output.append("Enter guess: \n");
+            while (guessing) {
 
                 String inputString = null;
                 do {
