@@ -8,4 +8,4 @@ If more than 1 letter is inputted, only accepts first character.
 
 EvilHangmanCMD runs with cmd arguments and EvilHangmanConsole takes console input, but most updated version is EvilHangman or EvilHangman.jar
 
-Test files and jars not written by me. Everything else is.
+Test files and jars are not written by me. Everything else is.
