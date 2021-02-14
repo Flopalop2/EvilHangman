@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Scanner;
 import java.util.Set;
 
 
@@ -13,10 +12,10 @@ public class EvilHangman {
     public static void main(String[] args) {
         int wordLength = 0;
         int numGuesses = 0;
-        String dictionaryFileName = null;
-        String lengthString = null;
-        String guessesString = null;
-        boolean isNumber = true;
+        String dictionaryFileName;
+        String lengthString; //initializing null is redundant
+        String guessesString;
+        boolean isNumber;
 
         //make input method
 
@@ -74,7 +73,10 @@ public class EvilHangman {
             }
 
             try {
-                wordLength = Integer.parseInt(lengthString);
+                //assert lengthString != null;
+                if (lengthString != null) {
+                    wordLength = Integer.parseInt(lengthString);
+                }
             }
             catch (NumberFormatException ex) {
                 isNumber = false;
@@ -108,7 +110,9 @@ public class EvilHangman {
             }
 
             try {
-                numGuesses = Integer.parseInt(guessesString);
+                if (guessesString != null) {
+                    numGuesses = Integer.parseInt(guessesString);
+                }
             }
             catch (NumberFormatException ex) {
                 isNumber = false;
@@ -117,13 +121,22 @@ public class EvilHangman {
 
 
         boolean guessing;
-        String word = "";
 
+        //StringBuilder word = new StringBuilder();
+
+        //word.append("-".repeat(Math.max(0, wordLength)));
+        /*
         for (int i = 0; i < wordLength; ++i) {
-            word += '-';
+            word.append('-');
         }
+         */
 
-        StringBuilder finalGuess = new StringBuilder(word);
+        StringBuilder finalGuess = new StringBuilder("-".repeat(Math.max(0, wordLength))
+ /*
+ for (int i = 0; i < wordLength; ++i) {
+     word.append('-');
+ }
+  */);
         //finalGuess.setCharAt(word.length()-1,',');
 
         char curChar;
@@ -139,44 +152,46 @@ public class EvilHangman {
             game.startGame(inputFile, wordLength);
         }
         catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "IO Exception (dictionary not valid)", "Sup",2);
+            JOptionPane.showMessageDialog(null, "IO Exception (dictionary not valid)", "Sup",JOptionPane.ERROR_MESSAGE);
             System.out.println("IO Exception");
             System.out.println(e.getMessage()); // what if it doesn't return a message? - returns null
             e.printStackTrace();
             return;
         }
         catch (EmptyDictionaryException e) {
-            JOptionPane.showMessageDialog(null, "Empty Dictionary or no words of said length", "Sup",2);
+            JOptionPane.showMessageDialog(null, "Empty Dictionary or no words of said length", "Sup",JOptionPane.WARNING_MESSAGE);
             System.out.println("Empty Dictionary");
             System.out.println(e.getMessage());
             e.printStackTrace();
             return;
         }
 
-        Scanner input = new Scanner(System.in);
 
         for (int i = numGuesses; i > 0; --i) {
             guessing = true;
 
             StringBuilder output = new StringBuilder();
 
-            output.append("You have " + i + " guesses left\n");
+            String toAppend = "You have " + i + " guesses left\n";
+            output.append(toAppend);
 
             //System.out.printf("You have %d guesses left%n", i);
 
             output.append("Used letters: ");
             if (game.getGuessedLetters() != null) {
-                output.append(game.getGuessedLetters().toString() + "\n");
+                output.append(game.getGuessedLetters().toString());
+                output.append("\n");
             }
 
             output.append("Word: ");
-            output.append(finalGuess.toString() + "\n");
+            output.append(finalGuess.toString());
+            output.append("\n");
 
             output.append("Enter guess: \n");
 
             while (guessing) {
 
-                String inputString = null;
+                String inputString;
                 do {
                     inputString = JOptionPane.showInputDialog(null, output, "Hey",JOptionPane.QUESTION_MESSAGE);
 
